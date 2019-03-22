@@ -16,7 +16,30 @@ module.exports = appInfo => {
   config.keys = appInfo.name + '_1553171259992_1829';
 
   // add your middleware config here
-  config.middleware = [];
+  config.middleware = ['adminauth'];
+  config.adminauth={
+    match: '/api/admin',
+  }
+
+  // 配置JWT
+  config.jwt = {
+    secret: "123456"
+  };
+
+  // 配置mongodb
+  config.mongoose = {
+    client: {
+      url: 'mongodb://127.0.0.1/shop',
+      options: {}
+    }
+  }
+
+  // 让csrf失效
+  config.security = {
+    csrf: {
+      enable: false
+    }
+  }
 
   // add your user config here
   const userConfig = {

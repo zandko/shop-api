@@ -1,9 +1,15 @@
 'use strict';
 
 /** @type Egg.EggPlugin */
-module.exports = {
-  // had enabled by egg
-  // static: {
-  //   enable: true,
-  // }
+
+// 配置egg-jwt
+exports.jwt = {
+  enable: true,
+  package: "egg-jwt"
+};
+
+// 配置mongodb
+exports.mongoose = {
+  enable: true,
+  package: 'egg-mongoose',
 };

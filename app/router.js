@@ -5,5 +5,11 @@
  */
 module.exports = app => {
   const { router, controller } = app;
-  router.get('/', controller.home.index);
+  // Admin
+  router.post('/api/admin/authentication', controller.admin.login.authentication);
+  router.get('/api/admin/gettoken', controller.admin.login.gettoken);
+
+
+  // Index
+  
 };
