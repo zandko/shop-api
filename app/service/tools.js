@@ -58,6 +58,16 @@ class ToolsService extends Service {
     var d = new Date();
     return d.getTime();
   }
+
+  /**
+   * 获取指定字符后面的所有字符内容
+   * @param {*} obj 
+   */
+  async getCaption(obj) {
+    var index = obj.lastIndexOf("\/");
+    obj = obj.substring(index + 1, obj.length);
+    return obj;
+  }
 }
 
 module.exports = ToolsService;

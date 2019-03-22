@@ -18,7 +18,7 @@ module.exports = appInfo => {
   // add your middleware config here
   config.middleware = ['adminauth'];
   config.adminauth={
-    match: '/api/admin',
+    match: '/api/v1/admin/',
   }
 
   // 配置JWT

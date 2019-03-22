@@ -20,9 +20,8 @@ exports.verifyToken = async (ctx) => {
 };
 
 // 处理成功响应
-exports.success = (ctx, result = null, message = "请求成功", code = 200) => {
+exports.success = (ctx, result = null, code = 200) => {
   ctx.body = {
-    message: message,
     data: result
   };
   ctx.status = code;

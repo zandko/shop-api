@@ -5,11 +5,20 @@
  */
 module.exports = app => {
   const { router, controller } = app;
-  // Admin
-  router.post('/api/admin/authentication', controller.admin.login.authentication);
-  router.get('/api/admin/gettoken', controller.admin.login.gettoken);
+  // Admin  后台管理
+  // 登录
+  router.post('/api/v1/admin/authentication', controller.admin.login.authentication);
+  // 测试
+  router.get('/api/v1/admin/gettoken', controller.admin.login.gettoken);
+
+  // 角色管理
+  router.get('/api/v1/admin/roles', controller.admin.roles.index);
+  router.post('/api/v1/admin/roles', controller.admin.roles.store);
+  router.del('/api/v1/admin/roles/:_id', controller.admin.roles.destroy);
+  router.put('/api/v1/admin/roles/:_id', controller.admin.roles.update);
+  router.get('/api/v1/admin/roles/:_id', controller.admin.roles.show);
 
 
-  // Index
+  // Index  前台管理
   
 };
