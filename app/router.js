@@ -8,8 +8,6 @@ module.exports = app => {
   // Admin  后台管理
   // 登录
   router.post('/api/v1/admin/authentication', controller.admin.login.authentication);
-  // 测试
-  router.get('/api/v1/admin/gettoken', controller.admin.login.gettoken);
 
   // 角色管理
   router.get('/api/v1/admin/roles', controller.admin.roles.index);
@@ -23,7 +21,12 @@ module.exports = app => {
   router.post('/api/v1/admin/administrators', controller.admin.administrators.store);
   router.del('/api/v1/admin/administrators/:_id', controller.admin.administrators.destroy);
   router.put('/api/v1/admin/administrators/:_id', controller.admin.administrators.update);
-  router.get('/api/v1/admin/administrators/:_id', controller.admin.administrators.show);
+
+  // 权限管理
+  router.get('/api/v1/admin/privileges', controller.admin.privileges.index);
+  router.post('/api/v1/admin/privileges', controller.admin.privileges.store);
+  router.del('/api/v1/admin/privileges/:_id', controller.admin.privileges.destroy);
+  router.put('/api/v1/admin/privileges/:_id', controller.admin.privileges.update);
 
   // Index  前台管理
 

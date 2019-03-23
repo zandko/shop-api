@@ -6,25 +6,12 @@ class AdministratorsController extends Controller {
   // 管理员列表
   async index() {
     const {ctx} = this;
-    // 未完待续 O(∩_∩)O哈哈~
-    const adminResult = await ctx.model.Admin.find({});
-    let AdminRolesResule = [];
-    for (let i = 0; i < adminResult.length; i++) {
-      let AdminRoleResule = await ctx.model.AdminRole.find({"admin_id": adminResult[i]._id});
-      if (AdminRoleResule.length > 0) {
-        AdminRolesResule.push(AdminRoleResule)
-      }
-    }
-
-    let ResulesResult =[];
-    for (let i = 0; i < AdminRolesResule.length; i++) {
-      for (let j = 0; j <= i ; j++) {
-        ResulesResult.push(await ctx.model.Role.find({"_id": AdminRolesResule[i][j].role_id}));
-      }
-    }
-
-    console.log(ResulesResult);
-    // ctx.helper.success(ctx, adminResult);
+    // 使用populate多表联合查询 要注意的是要给要联合的model加上ref
+    const dosc = await ctx.model.AdminRole.find({})
+      .populate({path: 'admin_id', select: "account"})
+      .populate({path: 'role_id', select: "role_name"})
+      .exec();
+    ctx.helper.success(ctx, dosc);
   }
 
   // 添加管理员
@@ -35,7 +22,7 @@ class AdministratorsController extends Controller {
     const password = await service.tools.md5(ctx.request.body.password);
     const role_id = ctx.request.body.role_id;
     const isAccount = await ctx.model.Admin.find({"account": account});
-    if (!isAccount) {
+    if (!isAccount[0]) {
       // 把用户名与密码添加到数据库
       const result = await ctx.model.Admin.create({account, password});
       // 如果添加成功
@@ -98,26 +85,6 @@ class AdministratorsController extends Controller {
       }
       ctx.helper.noContent(ctx);
     }
-  }
-
-  // 查询管理员
-  async show() {
-    const {ctx} = this;
-    const _id = ctx.params._id;
-    // 根据ID查询Admin表
-    const Adminresult = await ctx.model.Admin.find({"_id": _id});
-    // 根据ID查询AdminRole表
-    const AdminRoleResule = await ctx.model.AdminRole.find({"admin_id": _id});
-    let ResuleResult = [];
-    // 根据AdminRoleResule数据中的ID 循环去查找role表对应的ID数据
-    for (let i = 0; i < Adminresult.length; i++) {
-      ResuleResult.push(await ctx.model.Role.find({"_id": AdminRoleResule[i].role_id}));
-    }
-    const data = {
-      "admin": Adminresult,
-      "resule": ResuleResult
-    };
-    ctx.helper.success(ctx, data);
   }
 }
 

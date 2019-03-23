@@ -31,12 +31,6 @@ class LoginController extends Controller {
       ctx.helper.error(ctx, 401, "用户名或密码错误");
     }
   }
-
-  // 测试
-  async gettoken() {
-    const {ctx} = this;
-    ctx.body = "sdfs";
-  }
 }
 
 module.exports = LoginController;
