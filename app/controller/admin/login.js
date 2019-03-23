@@ -12,7 +12,7 @@ class LoginController extends Controller {
     };
 
     // 数据库查询
-    let result = await ctx.model.Admin.find(admin);
+    const result = await ctx.model.Admin.find(admin);
 
     // 如果有则生成token返回状态码
     if (result[0]) {

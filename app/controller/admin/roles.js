@@ -15,7 +15,7 @@ class RolesController extends Controller {
   // 添加角色
   async store() {
     const {ctx} = this;
-    let role_name = ctx.request.body.role_name;
+    const role_name = ctx.request.body.role_name;
     // 执行添加
     const role = new ctx.model.Role({role_name});
     role.save();
@@ -26,7 +26,7 @@ class RolesController extends Controller {
   async destroy() {
     const {ctx} = this;
     // 获取角色ID
-    let _id = ctx.params._id;
+    const _id = ctx.params._id;
     // 执行删除
     const a =await ctx.model.Role.deleteOne({"_id": _id});
     ctx.helper.noContent(ctx);
@@ -35,8 +35,8 @@ class RolesController extends Controller {
   // 修改角色
   async update() {
     const {ctx} = this;
-    let _id = ctx.params._id;
-    let role_name = ctx.request.body.role_name;
+    const _id = ctx.params._id;
+    const role_name = ctx.request.body.role_name;
     // 执行修改
     await ctx.model.Role.updateOne({"_id": _id}, {
       role_name: role_name
@@ -47,7 +47,7 @@ class RolesController extends Controller {
   // 获取角色
   async show() {
     const {ctx} = this;
-    let _id = ctx.params._id;
+    const _id = ctx.params._id;
     const result = await ctx.model.Role.find({"_id": _id});
     ctx.helper.success(ctx, result[0]);
   }
