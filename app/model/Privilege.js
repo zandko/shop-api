@@ -8,5 +8,5 @@ module.exports = app => {
     path: {type: String}  // 权限路径
   });
 
-  return mongoose.model('Privilege', PrivilegeSchema);
+  return mongoose.model("Privilege", PrivilegeSchema);
 };

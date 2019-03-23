@@ -5,5 +5,5 @@ module.exports = app => {
         role_name: { type: String },      // 角色名称
     });
 
-    return mongoose.model('Role', AdminSchema);
+    return mongoose.model("Role", AdminSchema);
 };

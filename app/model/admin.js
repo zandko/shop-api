@@ -9,5 +9,5 @@ module.exports = app => {
     updated_at: {type: Number, default: d.getTime()},  // 修改时间
   });
 
-  return mongoose.model('Admin', AdminSchema);
+  return mongoose.model("Admin", AdminSchema);
 };
