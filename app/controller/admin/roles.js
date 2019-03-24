@@ -7,7 +7,27 @@ class RolesController extends Controller {
   async index() {
     const {ctx} = this;
     // 执行查询
-    const result = await ctx.model.Role.find({});
+    // const result = await ctx.model.Role.find({});
+    // 多表查询
+    const result = await ctx.model.PrivilegeRole.aggregate([
+      {
+        $lookup: {
+          from: 'roles',  // 表名
+          localField: "role_id", // PrivilegeRole : role_id
+          foreignField: "_id",  // roles : _id
+          as: "roles" // 别名
+        }
+      },
+      {
+        $lookup: {
+          from: 'privileges',
+          localField: "privilege_id",
+          foreignField: "_id",
+          as: "privileges"
+        }
+      }
+    ]);
+
     // 返回状态
     ctx.helper.success(ctx, result);
   }
@@ -28,7 +48,9 @@ class RolesController extends Controller {
     // 获取角色ID
     const _id = ctx.params._id;
     // 执行删除
-    const a =await ctx.model.Role.deleteOne({"_id": _id});
+    await ctx.model.Role.deleteOne({"_id": _id});
+    // 同时删除此角色与权限表中的关系
+    await ctx.model.PrivilegeRole.deleteMany({"role_id": _id});
     ctx.helper.noContent(ctx);
   }
 
@@ -37,19 +59,25 @@ class RolesController extends Controller {
     const {ctx} = this;
     const _id = ctx.params._id;
     const role_name = ctx.request.body.role_name;
+    const privilege_id = ctx.request.body.privilege_id;
+
     // 执行修改
     await ctx.model.Role.updateOne({"_id": _id}, {
       role_name: role_name
     });
-    ctx.helper.noContent(ctx);
-  }
+    // 如果有权限ID 则循序添加到中间表
+    if (privilege_id.length > 0) {
+      // 每次修改先删除一遍不然会造成数据重复
+      await ctx.model.PrivilegeRole.deleteMany({"role_id": _id});
+      for (let i = 0; i < privilege_id.length; i++) {
+        await ctx.model.PrivilegeRole.create({
+          "role_id": _id,
+          "privilege_id": privilege_id[i]
+        });
+      }
+    }
 
-  // 获取角色
-  async show() {
-    const {ctx} = this;
-    const _id = ctx.params._id;
-    const result = await ctx.model.Role.find({"_id": _id});
-    ctx.helper.success(ctx, result[0]);
+    ctx.helper.noContent(ctx);
   }
 }
 

@@ -14,7 +14,6 @@ module.exports = app => {
   router.post('/api/v1/admin/roles', controller.admin.roles.store);
   router.del('/api/v1/admin/roles/:_id', controller.admin.roles.destroy);
   router.put('/api/v1/admin/roles/:_id', controller.admin.roles.update);
-  router.get('/api/v1/admin/roles/:_id', controller.admin.roles.show);
 
   // 管理员管理
   router.get('/api/v1/admin/administrators', controller.admin.administrators.index);
