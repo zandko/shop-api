@@ -38,7 +38,7 @@ class AdministratorsController extends Controller {
         }
       }
     } else {
-      ctx.helper.error(ctx, 403, "用户名账号已存在");
+      ctx.helper.error(ctx, 422, "用户名账号已存在");
     }
   }
 

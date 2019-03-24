@@ -28,7 +28,7 @@ class LoginController extends Controller {
       ctx.status = 201;
     } else {
       // 否则返回错误信息
-      ctx.helper.error(ctx, 401, "用户名或密码错误");
+      ctx.helper.error(ctx, 422, "用户名或密码错误");
     }
   }
 }
