@@ -27,6 +27,13 @@ module.exports = app => {
   router.del('/api/v1/admin/privileges/:_id', controller.admin.privileges.destroy);
   router.put('/api/v1/admin/privileges/:_id', controller.admin.privileges.update);
 
+  // 广告管理
+  // 广告位
+  router.get('/api/v1/admin/ad_pos', controller.admin.adPos.index);
+  router.post('/api/v1/admin/ad_pos', controller.admin.adPos.store);
+  router.del('/api/v1/admin/ad_pos/:_id', controller.admin.adPos.destroy);
+  router.put('/api/v1/admin/ad_pos/:_id', controller.admin.adPos.update);
+
   // Index  前台管理
 
 };
