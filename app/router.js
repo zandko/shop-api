@@ -33,11 +33,23 @@ module.exports = app => {
   router.post('/api/v1/admin/ad_pos', controller.admin.adPos.store);
   router.del('/api/v1/admin/ad_pos/:_id', controller.admin.adPos.destroy);
   router.put('/api/v1/admin/ad_pos/:_id', controller.admin.adPos.update);
-
+  // 广告
   router.get('/api/v1/admin/ads', controller.admin.ads.index);
   router.post('/api/v1/admin/ads', controller.admin.ads.store);
   router.del('/api/v1/admin/ads/:_id', controller.admin.ads.destroy);
   router.put('/api/v1/admin/ads/:_id', controller.admin.ads.update);
+
+  // 文章管理
+  // 文章分类
+  router.get('/api/v1/admin/article_categories', controller.admin.articleCat.index);
+  router.post('/api/v1/admin/article_categories', controller.admin.articleCat.store);
+  router.del('/api/v1/admin/article_categories/:_id', controller.admin.articleCat.destroy);
+  router.put('/api/v1/admin/article_categories/:_id', controller.admin.articleCat.update);
+  // 文章
+  router.get('/api/v1/admin/articles', controller.admin.articles.index);
+  router.post('/api/v1/admin/articles', controller.admin.articles.store);
+  router.del('/api/v1/admin/articles/:_id', controller.admin.articles.destroy);
+  router.put('/api/v1/admin/articles/:_id', controller.admin.articles.update);
 
   // Index  前台管理
 

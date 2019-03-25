@@ -73,7 +73,7 @@ class AdministratorsController extends Controller {
     }
     // 密码如果存在 更改密码并且循环再把关联关系添加到中间表
     if (password) {
-      await ctx.model.Admin.updateOne({"_id": admin_id}, {"password": password});
+      await ctx.model.Admin.updateOne({"_id": admin_id}, {"password": password, "updated_at": service.tools.getTime()});
       for (let i = 0; i < role_id.length; i++) {
         await ctx.model.AdminROle.create({"admin_id": admin_id, "role_id": role_id[i]});
       }
