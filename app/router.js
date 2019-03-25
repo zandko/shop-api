@@ -34,6 +34,11 @@ module.exports = app => {
   router.del('/api/v1/admin/ad_pos/:_id', controller.admin.adPos.destroy);
   router.put('/api/v1/admin/ad_pos/:_id', controller.admin.adPos.update);
 
+  router.get('/api/v1/admin/ads', controller.admin.ads.index);
+  router.post('/api/v1/admin/ads', controller.admin.ads.store);
+  router.del('/api/v1/admin/ads/:_id', controller.admin.ads.destroy);
+  router.put('/api/v1/admin/ads/:_id', controller.admin.ads.update);
+
   // Index  前台管理
 
 };
