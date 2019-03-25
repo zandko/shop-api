@@ -25,6 +25,7 @@ class AdPosController extends Controller {
     const {ctx} = this;
     const _id = ctx.params._id;
     await ctx.model.AdPo.deleteOne({"_id": _id});
+    await ctx.model.Ad.deleteMany({"pos_id": _id});  // 广告位没了 他下面的广告也会被删除
     ctx.helper.noContent(ctx);
   }
 

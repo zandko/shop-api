@@ -23,6 +23,7 @@ class AdsController extends Controller {
     const {ctx} = this;
     const _id = ctx.params._id;
     await ctx.model.ArticleCat.deleteOne({"_id": _id});
+    await ctx.model.Article.deleteMany({"cat_id": _id});  // 文章分类没了 他下面的文章也会被删除
     ctx.helper.noContent(ctx);
   }
 
