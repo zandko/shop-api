@@ -6,10 +6,21 @@ class AdministratorsController extends Controller {
   // 管理员列表
   async index() {
     const {ctx} = this;
+    let order = ctx.query.order;
+    let page = ctx.query.page ? Number(ctx.query.page) : 1;
+    let per_page = ctx.query.per_page ? Number(ctx.query.per_page) : 10;
+    if (order === 'desc') {
+      order = -1;
+    } else {
+      order = 1;
+    }
     // 使用populate多表联合查询 要注意的是要给要联合的model加上ref
     const dosc = await ctx.model.AdminRole.find({})
       .populate({path: 'admin_id', select: "account"})
       .populate({path: 'role_id', select: "role_name"})
+      .sort({"_id": order})
+      .skip(page)
+      .limit(per_page)
       .exec();
     ctx.helper.success(ctx, dosc);
   }

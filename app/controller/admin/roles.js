@@ -7,25 +7,27 @@ class RolesController extends Controller {
   async index() {
     const {ctx} = this;
     // 执行查询
-    // const result = await ctx.model.Role.find({});
+    let order = ctx.query.order;
+    let page = ctx.query.page ? Number(ctx.query.page) : 1;
+    let per_page = ctx.query.per_page ? Number(ctx.query.per_page) : 10;
+
+    if (order === 'desc') {
+      order = -1;
+    } else {
+      order = 1;
+    }
+
     // 多表查询
-    const result = await ctx.model.PrivilegeRole.aggregate([
+    const result = await ctx.model.Role.aggregate([
       {
-        $lookup: {
-          from: 'roles',  // 表名
-          localField: "role_id", // PrivilegeRole : role_id
-          foreignField: "_id",  // roles : _id
-          as: "roles" // 别名
-        }
+        $sort: {"_id": order} // 排序
       },
       {
-        $lookup: {
-          from: 'privileges',
-          localField: "privilege_id",
-          foreignField: "_id",
-          as: "privileges"
-        }
-      }
+        $skip: page   // 第几页开始
+      },
+      {
+        $limit: per_page // 一页几条
+      },
     ]);
 
     // 返回状态

@@ -7,39 +7,60 @@ class AdsController extends Controller {
   async index() {
     const {ctx, app} = this;
     let order = ctx.query.order;
-    let _id = ctx.query.cat_id;
-    let cat_id = app.mongoose.Types.ObjectId(_id);
+    let cat_id = ctx.query.cat_id ? app.mongoose.Types.ObjectId(ctx.query.cat_id) : null;
     let page = ctx.query.page ? Number(ctx.query.page) : 1;
     let per_page = ctx.query.per_page ? Number(ctx.query.per_page) : 10;
 
-    console.log( typeof  page);
     if (order === 'desc') {
       order = -1;
     } else {
       order = 1;
     }
-    const result = await ctx.model.Article.aggregate([
-      {
-        $lookup: {
-          from: 'articlecats',
-          localField: "cat_id",
-          foreignField: "_id",
-          as: "items"
-        }
-      },
-      {
-        $match: {"cat_id": cat_id}  // 条件
-      },
-      {
-        $sort: {"sort_num": order} // 排序
-      },
-      {
-        $skip: page   // 第几页开始
-      },
-      {
-        $limit: per_page // 一页几条
-      },
-    ]);
+    if(cat_id) {
+      var result = await ctx.model.Article.aggregate([
+        {
+          $lookup: {
+            from: 'articlecats',
+            localField: "cat_id",
+            foreignField: "_id",
+            as: "items"
+          }
+        },
+        {
+          $match: {"cat_id": cat_id}  // 条件
+        },
+        {
+          $sort: {"sort_num": order} // 排序
+        },
+        {
+          $skip: page   // 第几页开始
+        },
+        {
+          $limit: per_page // 一页几条
+        },
+      ]);
+    }else {
+      var result = await ctx.model.Article.aggregate([
+        {
+          $lookup: {
+            from: 'articlecats',
+            localField: "cat_id",
+            foreignField: "_id",
+            as: "items"
+          }
+        },
+        {
+          $sort: {"sort_num": order} // 排序
+        },
+        {
+          $skip: page   // 第几页开始
+        },
+        {
+          $limit: per_page // 一页几条
+        },
+      ]);
+    } 
+
     ctx.helper.success(ctx, result);
   }
 
