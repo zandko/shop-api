@@ -6,7 +6,18 @@ class AdPosController extends Controller {
   // 广告位列表
   async index() {
     const {ctx} = this;
-    const result = await ctx.model.AdPo.find({});
+    let order = ctx.query.order;
+    let page = ctx.query.page ? Number(ctx.query.page) : 1;
+    let per_page = ctx.query.per_page ? Number(ctx.query.per_page) : 10;
+
+    if (order === 'desc') {
+      order = -1;
+    } else {
+      order = 1;
+    }
+
+    const result = await ctx.model.AdPo.find({}).sort({"_id": order}).skip(page).limit(per_page);
+
     ctx.helper.success(ctx, result[0]);
   }
 

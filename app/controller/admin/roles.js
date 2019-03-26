@@ -17,7 +17,6 @@ class RolesController extends Controller {
       order = 1;
     }
 
-    // 多表查询
     const result = await ctx.model.Role.aggregate([
       {
         $sort: {"_id": order} // 排序
@@ -27,7 +26,7 @@ class RolesController extends Controller {
       },
       {
         $limit: per_page // 一页几条
-      },
+      }
     ]);
 
     // 返回状态
