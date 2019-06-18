@@ -2,23 +2,22 @@
 
 const Controller = require('egg').Controller;
 
-class LoginController extends Controller {
-  async authentication () {
+class AuthorizationsController extends Controller {
+  // 用户登录
+  async store () {
     const { ctx, service } = this;
-    // 获取用户提交的信息
-    const admin = {
-      account: ctx.request.body.account,
+    const member = {
+      mobile: ctx.request.body.mobile,
       password: await service.tools.md5(ctx.request.body.password)
     };
 
-    // 数据库查询
-    const result = await ctx.model.Admin.find(admin);
+    const result = await ctx.model.Member.find(member);
 
     // 如果有则生成token返回状态码
     if (result[0]) {
       var token = await service.tools.createToken({
         "_id": result[0]._id,
-        "account": result[0].account,
+        "mobile": result[0].mobile,
         "password": result[0].password
       });
       // 返回token与状态码
@@ -27,10 +26,9 @@ class LoginController extends Controller {
       };
       ctx.status = 201;
     } else {
-      // 否则返回错误信息
-      ctx.helper.error(ctx, 422, "用户名或密码错误");
+      ctx.helper.error(ctx, 422, "手机号或密码错误");
     }
   }
 }
 
-module.exports = LoginController;
+module.exports = AuthorizationsController;

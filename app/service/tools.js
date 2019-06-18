@@ -8,7 +8,7 @@ class ToolsService extends Service {
    * @param data {Object}
    * @returns {number | PromiseLike<ArrayBuffer>}
    */
-  async createToken(data) {
+  async createToken (data) {
     const { ctx } = this;
     return ctx.app.jwt.sign(data, ctx.app.jwt.secret, {
       expiresIn: Math.floor(Date.now() / 1000) + (60 * 60)
@@ -19,7 +19,7 @@ class ToolsService extends Service {
    * 验证 Token
    * @param {String} token 
    */
-  async verifyToken(token) {
+  async verifyToken (token) {
     const { ctx } = this;
     return new Promise((resolve, reject) => {
       ctx.app.jwt.verify(token, ctx.app.config.jwt.secret, function (err, decoded) {
@@ -47,14 +47,14 @@ class ToolsService extends Service {
    * md5 加密
    * @param {String} str 
    */
-  async md5(str) {
+  async md5 (str) {
     return md5(str);
   }
 
   /**
    * 返回一个时间的格林威治时间数值
    */
-  async getTime() {
+  async getTime () {
     var d = new Date();
     return d.getTime();
   }
@@ -63,7 +63,7 @@ class ToolsService extends Service {
    * 获取指定字符后面的所有字符内容
    * @param {*} obj 
    */
-  async getCaption(obj) {
+  async getCaption (obj) {
     var index = obj.lastIndexOf("\/");
     obj = obj.substring(index + 1, obj.length);
     return obj;

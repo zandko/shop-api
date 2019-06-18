@@ -4,10 +4,10 @@
  * @param {Egg.Application} app - egg application
  */
 module.exports = app => {
-  const {router, controller} = app;
+  const { router, controller } = app;
   // Admin  后台管理
   // 登录
-  router.post('/api/v1/admin/authentication', controller.admin.login.authentication);
+  router.post('/api/v1/admin/authentications', controller.admin.login.authentication);
 
   // 角色管理
   router.get('/api/v1/admin/roles', controller.admin.roles.index);
@@ -52,5 +52,7 @@ module.exports = app => {
   router.put('/api/v1/admin/articles/:_id', controller.admin.articles.update);
 
   // Index  前台管理
-
+  // 注册、登录
+  router.post('/api/v1/home/members', controller.home.member.store);
+  router.post('/api/v1/home/authorizations', controller.home.authorizations.store);
 };
