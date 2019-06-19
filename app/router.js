@@ -76,8 +76,7 @@ module.exports = app => {
   router.post('/api/v1/home/authorizations', controller.home.authorizations.store);
 
   // 图片上传
-  router.post('/api/v1/common/upload', controller.common.uploader.index);
+  router.post('/api/v1/common/upload', controller.common.uploader.uploadPhoto);
+  router.post('/api/v1/common/batch_upload', controller.common.uploader.batchUploadPhoto);
   
-  // 测试
-  router.post('/api/v1/common/mkdir', controller.common.uploader.index);
 };
