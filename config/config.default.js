@@ -12,13 +12,14 @@ module.exports = appInfo => {
    **/
   const config = {};
 
+  config.uploadDir = 'app/public/upload/'
   // use for cookie sign key, should change to your own and keep security
   config.keys = appInfo.name + '_1553171259992_1829';
 
   // add your middleware config here
   config.middleware = ['adminauth'];
-  config.adminauth={
-    match: '/api/v1/admin/',
+  config.adminauth = {
+    match: '/api/v1/',
   }
 
   // 配置JWT

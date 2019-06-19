@@ -2,6 +2,9 @@
 
 const Service = require('egg').Service;
 const md5 = require('md5');
+const sd = require('silly-datetime');
+const mkdirp = require('mz-modules').mkdirp;
+const path = require('path');
 class ToolsService extends Service {
   /**
    * 生成 Token
@@ -67,6 +70,25 @@ class ToolsService extends Service {
     var index = obj.lastIndexOf("\/");
     obj = obj.substring(index + 1, obj.length);
     return obj;
+  }
+
+  /**
+   * 创建图片目录并返回保存的路径
+   * @param {*} fileName 
+   */
+  async getUploadFile (fileName) {
+    const { config, service } = this;
+    const day = sd.format(new Date(), "YYYYMMDD");
+    const dir = path.join(config.uploadDir, day);
+    await mkdirp(dir);
+
+    const d = await service.tools.getTime();
+    const uploadDir = path.join(dir, d + path.extname(fileName));
+
+    return {
+      uploadDir: uploadDir,
+      saveDir: uploadDir.slice(3).replace(/\\/g, '/')
+    }
   }
 }
 

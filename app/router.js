@@ -51,8 +51,33 @@ module.exports = app => {
   router.del('/api/v1/admin/articles/:_id', controller.admin.articles.destroy);
   router.put('/api/v1/admin/articles/:_id', controller.admin.articles.update);
 
+  // 轮播图管理
+  router.get('/api/v1/admin/carousel', controller.admin.carousel.index);
+  router.get('/api/v1/admin/carousel/:_id', controller.admin.carousel.find);
+  router.post('/api/v1/admin/carousel', controller.admin.carousel.store);
+  router.del('/api/v1/admin/carousel/:_id', controller.admin.carousel.destroy);
+  router.put('/api/v1/admin/carousel/:_id', controller.admin.carousel.update);
+
+  // 商品分类
+  router.get('/api/v1/admin/product_categories', controller.admin.categorys.index);
+  router.post('/api/v1/admin/product_categories', controller.admin.categorys.store);
+  router.del('/api/v1/admin/product_categories/:_id', controller.admin.categorys.destroy);
+  router.put('/api/v1/admin/product_categories/:_id', controller.admin.categorys.update);
+
+  // 商品管理
+  router.get('/api/v1/admin/products', controller.admin.products.index);
+  router.post('/api/v1/admin/products', controller.admin.products.store);
+  router.del('/api/v1/admin/products/:_id', controller.admin.products.destroy);
+  router.put('/api/v1/admin/products/:_id', controller.admin.products.update);
+
   // Index  前台管理
   // 注册、登录
   router.post('/api/v1/home/members', controller.home.member.store);
   router.post('/api/v1/home/authorizations', controller.home.authorizations.store);
+
+  // 图片上传
+  router.post('/api/v1/common/upload', controller.common.uploader.index);
+  
+  // 测试
+  router.post('/api/v1/common/mkdir', controller.common.uploader.index);
 };
