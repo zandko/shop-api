@@ -6,6 +6,7 @@ class ProductTypeAttributeController extends Controller {
   async index () {
     const { ctx, app } = this;
     const _id = ctx.params._id;
+    const productType = await ctx.model.ProductType.findById(_id);
     const result = await ctx.model.ProductTypeAttribute.aggregate([
       {
         $lookup: {
@@ -21,7 +22,10 @@ class ProductTypeAttributeController extends Controller {
         }
       }
     ]);
-    ctx.helper.success(ctx, result);
+    ctx.helper.success(ctx, {
+      productType,
+      result
+    });
   }
 
   async store () {
@@ -43,6 +47,13 @@ class ProductTypeAttributeController extends Controller {
     const _id = ctx.params._id;
     await ctx.model.ProductTypeAttribute.updateOne({ "_id": _id }, ctx.request.body);
     ctx.helper.noContent(ctx);
+  }
+
+  async find () {
+    const { ctx } = this;
+    const _id = ctx.params._id;
+    const result = await ctx.model.ProductTypeAttribute.findById(_id);
+    ctx.helper.success(ctx, result);
   }
 }
 

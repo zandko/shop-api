@@ -9,7 +9,10 @@ exports.verifyToken = async (ctx) => {
   let token = this.getAccessToken(ctx);
   let verifyResult = await ctx.service.tools.verifyToken(token);
   if (!verifyResult.verify) {
-    ctx.helper.error(ctx, 401, verifyResult.message);
+    ctx.helper.error(ctx, 401, {
+      message: verifyResult.message,
+      expiredAt: verifyResult.expiredAt
+    });
     return false;
   }
   return true;
@@ -17,9 +20,10 @@ exports.verifyToken = async (ctx) => {
 
 // 处理成功响应
 exports.success = (ctx, result = null, code = 200) => {
-  ctx.body = {
-    data: result
-  };
+  // ctx.body = {
+  //   data: result
+  // };
+  ctx.body = result;
   ctx.status = code;
 };
 
@@ -39,8 +43,9 @@ exports.noContent = (ctx) => {
 
 // 成功创建资源了的响应
 exports.created = (ctx, result = null, code = 201) => {
-  ctx.body = {
-    data: result
-  };
+  // ctx.body = {
+  //   data: result
+  // };
+  ctx.body = result;
   ctx.status = code;
 };

@@ -36,6 +36,7 @@ class ToolsService extends Service {
         if (err) {
           result.verify = false;
           result.message = err.message;
+          result.expiredAt = err.expiredAt
         } else {
           result.verify = true;
           result.message = decoded;

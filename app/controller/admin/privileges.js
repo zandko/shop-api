@@ -10,11 +10,7 @@ class PrivilegesController extends Controller {
     let page = ctx.query.page ? Number(ctx.query.page) : 1;
     let per_page = ctx.query.per_page ? Number(ctx.query.per_page) : 10;
 
-    if (order === 'desc') {
-      order = -1;
-    } else {
-      order = 1;
-    }
+    order = order === 'desc' ? -1 : 1;
     // 自查询
     const result = await ctx.model.Privilege.aggregate([
       {

@@ -43,11 +43,7 @@ class CarouselController extends Controller {
     const { ctx } = this;
     const _id = ctx.params._id;
     const result = await ctx.model.Carousel.findById(_id);
-    if (result) {
-      ctx.helper.success(ctx, result);
-    } else {
-      ctx.helper.error(ctx, 404, '资源不存在');
-    }
+    ctx.helper.success(ctx, result);
   }
 }
 

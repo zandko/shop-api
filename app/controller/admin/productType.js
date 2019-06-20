@@ -29,6 +29,13 @@ class ProductTypeController extends Controller {
     await ctx.model.ProductType.updateOne({ "_id": _id }, ctx.request.body);
     ctx.helper.noContent(ctx);
   }
+
+  async find () {
+    const { ctx } = this;
+    const _id = ctx.params._id;
+    const result = await ctx.model.ProductType.findById(_id);
+    ctx.helper.success(ctx, result);
+  }
 }
 
 module.exports = ProductTypeController;
