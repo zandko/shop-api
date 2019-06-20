@@ -4,7 +4,7 @@ module.exports = app => {
   const d = new Date();
   const CarouselSchema = new Schema({
     title: { type: String }, // 轮播图名称
-    focus: { type: String }, // 图片位置
+    image: { type: String }, // 图片位置
     link: { type: String },  // 跳转链接
     sort: { type: Number }, // 排序
     is_enable: { type: Number }, // 是否启用

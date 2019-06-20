@@ -8,7 +8,7 @@ class UploaderController extends Controller {
   async uploadPhoto () {
     const { ctx, service } = this;
     const stream = await ctx.getFileStream();
-    const dir = await this.service.tools.getUploadFile(stream.filename);
+    const dir = await service.tools.getUploadFile(stream.filename);
     const target = dir.uploadDir;
     const writeStream = fs.createWriteStream(target);
     await pump(stream, writeStream);

@@ -5,6 +5,7 @@ const md5 = require('md5');
 const sd = require('silly-datetime');
 const mkdirp = require('mz-modules').mkdirp;
 const path = require('path');
+const fs = require('fs');
 class ToolsService extends Service {
   /**
    * 生成 Token
@@ -89,6 +90,14 @@ class ToolsService extends Service {
       uploadDir: uploadDir,
       saveDir: uploadDir.slice(3).replace(/\\/g, '/')
     }
+  }
+
+  /**
+   * 删除文件
+   * @param {*} path 
+   */
+  async deleteFile (path) {
+    fs.unlink('app' + path);
   }
 }
 
