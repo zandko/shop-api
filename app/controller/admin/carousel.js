@@ -28,7 +28,7 @@ class CarouselController extends Controller {
   }
 
   async update () {
-    const { ctx } = this;
+    const { ctx, service } = this;
     const _id = ctx.params._id;
     const image = ctx.request.body.image;
     const result = await ctx.model.Carousel.findById(_id);

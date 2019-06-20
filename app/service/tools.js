@@ -96,7 +96,11 @@ class ToolsService extends Service {
    * @param {*} path 
    */
   async deleteFile (path) {
-    fs.unlink('app' + path);
+    fs.unlink('app' + path, (err) => {
+      if (err) {
+        return false
+      }
+    });
   }
 }
 

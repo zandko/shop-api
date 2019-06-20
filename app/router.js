@@ -73,6 +73,13 @@ module.exports = app => {
   router.del('/api/v1/admin/product_type_attribute/:_id', controller.admin.productTypeAttribute.destroy);
   router.put('/api/v1/admin/product_type_attribute/:_id', controller.admin.productTypeAttribute.update);
 
+  // 产品分类
+  router.get('/api/v1/admin/product_category', controller.admin.productCategory.index);
+  router.get('/api/v1/admin/product_category/:_id', controller.admin.productCategory.find);
+  router.post('/api/v1/admin/product_category', controller.admin.productCategory.store);
+  router.del('/api/v1/admin/product_category/:_id', controller.admin.productCategory.destroy);
+  router.put('/api/v1/admin/product_category/:_id', controller.admin.productCategory.update);
+
   // // 产品分类
   // router.get('/api/v1/admin/product_categories', controller.admin.categorys.index);
   // router.post('/api/v1/admin/product_categories', controller.admin.categorys.store);
