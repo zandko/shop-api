@@ -4,10 +4,13 @@ module.exports = app => {
   const d = new Date();
   const ProductSchema = new Schema({
     category_id: { type: Schema.Types.ObjectId },     // 分类ID
-    name: { type: String },     // 商品名称
+    title: { type: String },     // 商品名称
+    sub_title: { type: String },
+    image: { type: String },
     description: { type: String },     // 商品描述
     stock: { type: Number, default: 0 },    // 库存量
-    price: { type: Number },      // 商品价格
+    shop_price: { type: Number },      // 商品价格
+    market_price: { type: Number },
     attr_list: { type: String },     // 属性列表
     sort_num: { type: String },     // 排序数字
     is_onsale: { type: String },     // 是否上架，0：下架 1：上架

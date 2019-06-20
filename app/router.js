@@ -58,17 +58,30 @@ module.exports = app => {
   router.del('/api/v1/admin/carousel/:_id', controller.admin.carousel.destroy);
   router.put('/api/v1/admin/carousel/:_id', controller.admin.carousel.update);
 
-  // 商品分类
-  router.get('/api/v1/admin/product_categories', controller.admin.categorys.index);
-  router.post('/api/v1/admin/product_categories', controller.admin.categorys.store);
-  router.del('/api/v1/admin/product_categories/:_id', controller.admin.categorys.destroy);
-  router.put('/api/v1/admin/product_categories/:_id', controller.admin.categorys.update);
+  // 产品管理
+  // 产品类型
+  router.get('/api/v1/admin/product_type', controller.admin.productType.index);
+  router.post('/api/v1/admin/product_type', controller.admin.productType.store);
+  router.del('/api/v1/admin/product_type/:_id', controller.admin.productType.destroy);
+  router.put('/api/v1/admin/product_type/:_id', controller.admin.productType.update);
 
-  // 商品管理
-  router.get('/api/v1/admin/products', controller.admin.products.index);
-  router.post('/api/v1/admin/products', controller.admin.products.store);
-  router.del('/api/v1/admin/products/:_id', controller.admin.products.destroy);
-  router.put('/api/v1/admin/products/:_id', controller.admin.products.update);
+  // 产品类型属性
+  router.get('/api/v1/admin/product_type_attribute/:_id', controller.admin.productTypeAttribute.index);
+  router.post('/api/v1/admin/product_type_attribute', controller.admin.productTypeAttribute.store);
+  router.del('/api/v1/admin/product_type_attribute/:_id', controller.admin.productTypeAttribute.destroy);
+  router.put('/api/v1/admin/product_type_attribute/:_id', controller.admin.productTypeAttribute.update);
+
+  // // 产品分类
+  // router.get('/api/v1/admin/product_categories', controller.admin.categorys.index);
+  // router.post('/api/v1/admin/product_categories', controller.admin.categorys.store);
+  // router.del('/api/v1/admin/product_categories/:_id', controller.admin.categorys.destroy);
+  // router.put('/api/v1/admin/product_categories/:_id', controller.admin.categorys.update);
+
+  // // 产品管理
+  // router.get('/api/v1/admin/products', controller.admin.products.index);
+  // router.post('/api/v1/admin/products', controller.admin.products.store);
+  // router.del('/api/v1/admin/products/:_id', controller.admin.products.destroy);
+  // router.put('/api/v1/admin/products/:_id', controller.admin.products.update);
 
   // Index  前台管理
   // 注册、登录
@@ -78,5 +91,5 @@ module.exports = app => {
   // 图片上传
   router.post('/api/v1/common/upload', controller.common.uploader.uploadPhoto);
   router.post('/api/v1/common/batch_upload', controller.common.uploader.batchUploadPhoto);
-  
+
 };

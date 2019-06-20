@@ -11,14 +11,8 @@ class CarouselController extends Controller {
 
   async store () {
     const { ctx } = this;
-    const carousel = {
-      title: ctx.request.body.title,
-      image: ctx.request.body.image,
-      link: ctx.request.body.link,
-      sort: ctx.request.body.sort,
-      is_enable: ctx.request.body.is_enable
-    }
-    const result = await ctx.model.Carousel.create(carousel);
+    const result = new ctx.model.Carousel(ctx.request.body);
+    await result.save();
     ctx.helper.created(ctx, result);
   }
 
@@ -36,18 +30,12 @@ class CarouselController extends Controller {
   async update () {
     const { ctx } = this;
     const _id = ctx.params._id;
-    const carousel = {
-      title: ctx.request.body.title,
-      image: ctx.request.body.image,
-      link: ctx.request.body.link,
-      sort: ctx.request.body.sort,
-      is_enable: ctx.request.body.is_enable
-    }
+    const image = ctx.request.body.image;
     const result = await ctx.model.Carousel.findById(_id);
-    if (result.image !== carousel.image) {
+    if (result.image !== image) {
       await service.tools.deleteFile(result.image);
     }
-    await ctx.model.Carousel.updateOne({ "_id": _id }, carousel);
+    await ctx.model.Carousel.updateOne({ "_id": _id }, ctx.request.body);
     ctx.helper.noContent(ctx);
   }
 
