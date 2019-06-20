@@ -14,9 +14,14 @@ class ToolsService extends Service {
    */
   async createToken (data) {
     const { ctx } = this;
-    return ctx.app.jwt.sign(data, ctx.app.jwt.secret, {
-      expiresIn: Math.floor(Date.now() / 1000) + (60 * 60)
-    });
+    const expiredTime = Math.floor(Date.now() / 1000) + (60 * 60);
+    return {
+      token: ctx.app.jwt.sign({
+        exp: expiredTime,
+        data
+      }, ctx.app.jwt.secret),
+      expiresIn: expiredTime
+    }
   }
 
   /**
@@ -29,13 +34,6 @@ class ToolsService extends Service {
       ctx.app.jwt.verify(token, ctx.app.config.jwt.secret, function (err, decoded) {
         let result = {};
         if (err) {
-          /*
-            err = {
-              name: 'TokenExpiredError',
-              message: 'jwt expired',
-              expiredAt: 1408621000
-            }
-          */
           result.verify = false;
           result.message = err.message;
         } else {

@@ -8,7 +8,8 @@ class PermissionService extends Service {
     // 获取token 解析用户信息
     const token = ctx.helper.getAccessToken(ctx);
     const verifuResult = await ctx.service.tools.verifyToken(token);
-    const admin_id = verifuResult.message._id;
+ 
+    const admin_id = verifuResult.message.data._id;
     // 查询当前用户有哪些角色
     const roleIds = await ctx.model.AdminRole.find({ "admin_id": admin_id });
     // 获取当前请求的url
@@ -17,7 +18,7 @@ class PermissionService extends Service {
     // 设置白名单
     const whitelist = ['/api/v1/admin/authentication'];
 
-    if (whitelist.indexOf(pathname) != -1 || verifuResult.message.account === "admin") {
+    if (whitelist.indexOf(pathname) != -1 || verifuResult.message.data.account === "admin") {
       return true;
     }
 

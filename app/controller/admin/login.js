@@ -23,7 +23,8 @@ class LoginController extends Controller {
       });
       // 返回token与状态码
       ctx.body = {
-        access_token: token,
+        access_token: token.token,
+        expiresIn: token.expiresIn
       };
       ctx.status = 201;
     } else {
