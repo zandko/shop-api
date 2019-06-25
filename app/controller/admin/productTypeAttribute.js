@@ -21,7 +21,10 @@ class ProductTypeAttributeController extends Controller {
         $match: {
           "product_type_id": app.mongoose.Types.ObjectId(_id)
         }
-      }
+      },
+      {
+        $sort: { "_id": -1 }
+      },
     ]);
     
     ctx.helper.success(ctx, {
