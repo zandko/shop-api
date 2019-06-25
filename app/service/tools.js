@@ -6,6 +6,7 @@ const sd = require('silly-datetime');
 const mkdirp = require('mz-modules').mkdirp;
 const path = require('path');
 const fs = require('fs');
+const Jimp = require('jimp');
 class ToolsService extends Service {
   /**
    * 生成 Token
@@ -100,6 +101,24 @@ class ToolsService extends Service {
       if (err) {
         return false
       }
+    });
+  }
+
+  /**
+   * 生成缩略图
+   * @param {*} target 
+   */
+  async jimpImg (target) {
+    Jimp.read(target, (err, lenna) => {
+      if (err) return false
+      lenna
+        .resize(500, 500)
+        .quality(90)
+        .write(target + '_500x500' + path.extname(target));
+      lenna
+        .resize(200, 200)
+        .quality(90)
+        .write(target + '_200x200' + path.extname(target));
     });
   }
 }

@@ -8,9 +8,11 @@
   },
   "dependencies": {
     "egg": "^2.15.1",
+    "egg-cors": "^2.2.0",
     "egg-jwt": "^3.1.6",
     "egg-mongoose": "^3.1.1",
     "egg-scripts": "^2.11.0",
+    "jimp": "^0.6.4",
     "md5": "^2.2.1",
     "mz-modules": "^2.1.0",
     "silly-datetime": "^0.1.2"

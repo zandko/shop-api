@@ -22,11 +22,10 @@ class LoginController extends Controller {
         "password": result[0].password
       });
       // 返回token与状态码
-      ctx.body = {
+      ctx.helper.created(ctx, {
         access_token: token.token,
         expiresIn: token.expiresIn
-      };
-      ctx.status = 201;
+      })
     } else {
       // 否则返回错误信息
       ctx.helper.error(ctx, 422, "用户名或密码错误");

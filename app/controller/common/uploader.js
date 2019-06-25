@@ -7,11 +7,13 @@ const fs = require('fs');
 class UploaderController extends Controller {
   async uploadPhoto () {
     const { ctx, service } = this;
+  
     const stream = await ctx.getFileStream();
     const dir = await service.tools.getUploadFile(stream.filename);
     const target = dir.uploadDir;
     const writeStream = fs.createWriteStream(target);
     await pump(stream, writeStream);
+    service.tools.jimpImg(target);
 
     ctx.body = {
       url: dir.saveDir
@@ -20,6 +22,7 @@ class UploaderController extends Controller {
 
   async batchUploadPhoto () {
     const { ctx, service } = this;
+    
     const parts = ctx.multipart();
     let files = {};
     let uploadArr = [];
@@ -36,6 +39,7 @@ class UploaderController extends Controller {
       files = Object.assign(files, {
         [fieldname]: dir.saveDir
       })
+      service.tools.jimpImg(target);
       uploadArr.push(files)
     }
     ctx.body = { data: uploadArr };

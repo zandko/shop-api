@@ -5,9 +5,10 @@ const Controller = require('egg').Controller;
 class ProductTypeAttributeController extends Controller {
   async index () {
     const { ctx, app } = this;
+
     const _id = ctx.params._id;
     const productType = await ctx.model.ProductType.findById(_id);
-    const result = await ctx.model.ProductTypeAttribute.aggregate([
+    const productTypeAttribute = await ctx.model.ProductTypeAttribute.aggregate([
       {
         $lookup: {
           from: "producttypes",
@@ -22,37 +23,46 @@ class ProductTypeAttributeController extends Controller {
         }
       }
     ]);
+    
     ctx.helper.success(ctx, {
       productType,
-      result
+      productTypeAttribute
     });
   }
 
   async store () {
     const { ctx } = this;
+
     const result = new ctx.model.ProductTypeAttribute(ctx.request.body);
     await result.save();
+
     ctx.helper.created(ctx, result);
   }
 
   async destroy () {
     const { ctx } = this;
+
     const _id = ctx.params._id;
     await ctx.model.ProductTypeAttribute.deleteOne({ "_id": _id });
+
     ctx.helper.noContent(ctx);
   }
 
   async update () {
     const { ctx } = this;
+
     const _id = ctx.params._id;
     await ctx.model.ProductTypeAttribute.updateOne({ "_id": _id }, ctx.request.body);
+
     ctx.helper.noContent(ctx);
   }
 
   async find () {
     const { ctx } = this;
+
     const _id = ctx.params._id;
     const result = await ctx.model.ProductTypeAttribute.findById(_id);
+
     ctx.helper.success(ctx, result);
   }
 }

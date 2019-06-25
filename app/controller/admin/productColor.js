@@ -2,19 +2,19 @@
 
 const Controller = require('egg').Controller;
 
-class ProductTypeController extends Controller {
+class ProductColorController extends Controller {
   async index () {
     const { ctx } = this;
 
-    const result = await ctx.model.ProductType.find({}).sort({"_id": -1});
-    
+    const result = await ctx.model.ProductColor.find({}).sort({ "_id": -1 });
+
     ctx.helper.success(ctx, result);
   }
 
   async store () {
     const { ctx } = this;
 
-    const result = ctx.model.ProductType(ctx.request.body);
+    const result = ctx.model.ProductColor(ctx.request.body);
     await result.save();
 
     ctx.helper.created(ctx, result);
@@ -24,7 +24,7 @@ class ProductTypeController extends Controller {
     const { ctx } = this;
 
     const _id = ctx.params._id;
-    await ctx.model.ProductType.deleteOne({ "_id": _id });
+    await ctx.model.ProductColor.deleteOne({ "_id": _id });
 
     ctx.helper.noContent(ctx);
   }
@@ -33,7 +33,7 @@ class ProductTypeController extends Controller {
     const { ctx } = this;
 
     const _id = ctx.params._id;
-    await ctx.model.ProductType.updateOne({ "_id": _id }, ctx.request.body);
+    await ctx.model.ProductColor.updateOne({ "_id": _id }, ctx.request.body);
 
     ctx.helper.noContent(ctx);
   }
@@ -42,10 +42,10 @@ class ProductTypeController extends Controller {
     const { ctx } = this;
 
     const _id = ctx.params._id;
-    const result = await ctx.model.ProductType.findById(_id);
-
+    const result = await ctx.model.ProductColor.findById(_id);
+    
     ctx.helper.success(ctx, result);
   }
 }
 
-module.exports = ProductTypeController;
+module.exports = ProductColorController;

@@ -16,6 +16,7 @@ module.exports = app => {
   router.put('/api/v1/admin/roles/:_id', controller.admin.roles.update);
 
   // 管理员管理
+  router.get('/api/v1/admin/administrator', controller.admin.administrators.find);
   router.get('/api/v1/admin/administrators', controller.admin.administrators.index);
   router.post('/api/v1/admin/administrators', controller.admin.administrators.store);
   router.del('/api/v1/admin/administrators/:_id', controller.admin.administrators.destroy);
@@ -67,7 +68,7 @@ module.exports = app => {
   router.put('/api/v1/admin/product_type/:_id', controller.admin.productType.update);
 
   // 产品类型属性
-  router.get('/api/v1/admin/product_type_attribute_list/:_id', controller.admin.productTypeAttribute.index);
+  router.get('/api/v1/admin/product_type_attributes/:_id', controller.admin.productTypeAttribute.index);
   router.get('/api/v1/admin/product_type_attribute/:_id', controller.admin.productTypeAttribute.find);
   router.post('/api/v1/admin/product_type_attribute', controller.admin.productTypeAttribute.store);
   router.del('/api/v1/admin/product_type_attribute/:_id', controller.admin.productTypeAttribute.destroy);
@@ -80,11 +81,12 @@ module.exports = app => {
   router.del('/api/v1/admin/product_category/:_id', controller.admin.productCategory.destroy);
   router.put('/api/v1/admin/product_category/:_id', controller.admin.productCategory.update);
 
-  // // 产品分类
-  // router.get('/api/v1/admin/product_categories', controller.admin.categorys.index);
-  // router.post('/api/v1/admin/product_categories', controller.admin.categorys.store);
-  // router.del('/api/v1/admin/product_categories/:_id', controller.admin.categorys.destroy);
-  // router.put('/api/v1/admin/product_categories/:_id', controller.admin.categorys.update);
+  // 产品颜色
+  router.get('/api/v1/admin/product_color', controller.admin.productColor.index);
+  router.get('/api/v1/admin/product_color/:_id', controller.admin.productColor.find);
+  router.post('/api/v1/admin/product_color', controller.admin.productColor.store);
+  router.del('/api/v1/admin/product_color/:_id', controller.admin.productColor.destroy);
+  router.put('/api/v1/admin/product_color/:_id', controller.admin.productColor.update);
 
   // // 产品管理
   // router.get('/api/v1/admin/products', controller.admin.products.index);

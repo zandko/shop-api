@@ -8,7 +8,7 @@ class PermissionService extends Service {
     // 获取token 解析用户信息
     const token = ctx.helper.getAccessToken(ctx);
     const verifuResult = await ctx.service.tools.verifyToken(token);
- 
+
     const admin_id = verifuResult.message.data._id;
     // 查询当前用户有哪些角色
     const roleIds = await ctx.model.AdminRole.find({ "admin_id": admin_id });

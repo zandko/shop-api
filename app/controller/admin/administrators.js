@@ -6,23 +6,43 @@ class AdministratorsController extends Controller {
   // 管理员列表
   async index () {
     const { ctx } = this;
+
     let order = ctx.query.order;
     let page = ctx.query.page ? Number(ctx.query.page) : 1;
     let per_page = ctx.query.per_page ? Number(ctx.query.per_page) : 10;
-    if (order === 'desc') {
-      order = -1;
-    } else {
-      order = 1;
-    }
+    // if (order === 'desc') {
+    //   order = -1;
+    // } else {
+    //   order = 1;
+    // }
+    // const result = await ctx.model.Admin.aggregate([
+    //   {
+    //     $lookup: {
+    //       from: "privileges",
+    //       localField: "product_type_id",
+    //       foreignField: "_id",
+    //       as: "producttypes"
+    //     }
+    //   },
+    //   {
+    //     $lookup: {
+    //       from: "roles",
+    //       localField: "product_type_id",
+    //       foreignField: "_id",
+    //       as: "producttypes"
+    //     }
+    //   }
+    // ])
     // 使用populate多表联合查询 要注意的是要给要联合的model加上ref
-    const dosc = await ctx.model.AdminRole.find({})
-      .populate({ path: 'admin_id', select: "account" })
-      .populate({ path: 'role_id', select: "role_name" })
-      .sort({ "_id": order })
-      .skip(page)
-      .limit(per_page)
-      .exec();
-    ctx.helper.success(ctx, dosc);
+    // const dosc = await ctx.model.AdminRole.find()
+    //   .populate({ path: 'admin_id', select: "account" })
+    //   .populate({ path: 'role_id', select: "role_name" })
+    //   .sort({ "_id": order })
+    //   .skip(page)
+    //   .limit(per_page)
+    //   .exec();
+    const result = await ctx.model.Admin.find()
+    ctx.helper.success(ctx, result);
   }
 
   // 添加管理员
@@ -39,14 +59,14 @@ class AdministratorsController extends Controller {
       // 如果添加成功
       if (result) {
         // 判断role_id 是不是一个数组
-        if (role_id instanceof Array) {
+        if (role_id instanceof Array && role_id.length > 0) {
           // 循环添加到数据库
           for (let i = 0; i < role_id.length; i++) {
             await ctx.model.AdminRole.create({ "admin_id": result._id, "role_id": role_id[i] });
           }
-          // 返回信息
-          ctx.helper.created(ctx, result);
         }
+        // 返回信息
+        ctx.helper.created(ctx, result);
       }
     } else {
       ctx.helper.error(ctx, 422, "用户名账号已存在");
@@ -96,6 +116,16 @@ class AdministratorsController extends Controller {
       }
       ctx.helper.noContent(ctx);
     }
+  }
+
+  async find () {
+    const { ctx } = this;
+    const verifuResult = await ctx.service.tools.verifyToken(ctx.query.token);
+
+    verifuResult.message.data.roles = ['admin']
+    verifuResult.message.data.introduction = '我是超级管理员',
+    verifuResult.message.data.avatar = 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
+    ctx.helper.success(ctx, verifuResult.message.data);
   }
 }
 

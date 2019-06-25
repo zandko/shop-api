@@ -13,3 +13,9 @@ exports.mongoose = {
   enable: true,
   package: 'egg-mongoose',
 };
+
+// 配置前后端分离的跨域问题
+exports.cors = {
+  enable: true,
+  package: 'egg-cors',
+};

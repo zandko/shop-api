@@ -42,6 +42,10 @@ module.exports = appInfo => {
     }
   }
 
+  config.cors = {
+    origin: ['http://localhost:9527']
+  }
+
   // add your user config here
   const userConfig = {
     // myAppName: 'egg',

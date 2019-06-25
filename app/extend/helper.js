@@ -20,9 +20,6 @@ exports.verifyToken = async (ctx) => {
 
 // 处理成功响应
 exports.success = (ctx, result = null, code = 200) => {
-  // ctx.body = {
-  //   data: result
-  // };
   ctx.body = result;
   ctx.status = code;
 };
@@ -31,7 +28,6 @@ exports.success = (ctx, result = null, code = 200) => {
 exports.error = (ctx, code, message) => {
   ctx.body = {
     message: message,
-    status_code: code
   };
   ctx.status = code;
 };
@@ -43,9 +39,6 @@ exports.noContent = (ctx) => {
 
 // 成功创建资源了的响应
 exports.created = (ctx, result = null, code = 201) => {
-  // ctx.body = {
-  //   data: result
-  // };
   ctx.body = result;
   ctx.status = code;
 };
