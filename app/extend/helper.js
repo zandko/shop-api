@@ -8,6 +8,7 @@ exports.getAccessToken = ctx => {
 exports.verifyToken = async (ctx) => {
   let token = this.getAccessToken(ctx);
   let verifyResult = await ctx.service.tools.verifyToken(token);
+
   if (!verifyResult.verify) {
     ctx.helper.error(ctx, 401, {
       message: verifyResult.message,

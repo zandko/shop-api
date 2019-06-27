@@ -4,7 +4,7 @@ module.exports = app => {
   const d = new Date();
   const ProductImageSchema = new Schema({
     product_id: { type: Schema.Types.ObjectId },          // 产品ID
-    product_color_id: { type: Schema.Types.Mixed },       // 产品颜色ID
+    product_color_id: { type: Schema.Types.Mixed, default:'' },       // 产品颜色ID
     url: { type: String },                                // 图片链接
     sort: { type: Number, default: 1 },                   // 排序
     status: { type: Number, default: 1 },                 // 状态

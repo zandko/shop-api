@@ -16,7 +16,7 @@ class UploaderController extends Controller {
     service.tools.jimpImg(target);
 
     ctx.body = {
-      url: dir.saveDir
+      url: 'http://127.0.0.1:7001' + dir.saveDir
     };
   }
 

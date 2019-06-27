@@ -88,11 +88,11 @@ module.exports = app => {
   router.del('/api/v1/admin/product_color/:_id', controller.admin.productColor.destroy);
   router.put('/api/v1/admin/product_color/:_id', controller.admin.productColor.update);
 
-  // // 产品管理
-  // router.get('/api/v1/admin/products', controller.admin.products.index);
-  // router.post('/api/v1/admin/products', controller.admin.products.store);
-  // router.del('/api/v1/admin/products/:_id', controller.admin.products.destroy);
-  // router.put('/api/v1/admin/products/:_id', controller.admin.products.update);
+  // 产品管理
+  router.get('/api/v1/admin/product', controller.admin.product.index);
+  router.post('/api/v1/admin/product', controller.admin.product.store);
+  router.del('/api/v1/admin/product/:_id', controller.admin.product.destroy);
+  router.put('/api/v1/admin/product/:_id', controller.admin.product.update);
 
   // Index  前台管理
   // 注册、登录
