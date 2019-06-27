@@ -60,7 +60,18 @@ class ProductController extends Controller {
   }
 
   async find () {
+    const { ctx } = this;
 
+    const _id = ctx.params._id;
+    const productResult = await ctx.model.Product.findById(_id);
+    const productImage = await ctx.model.ProductImage.find({ "product_id": productResult._id });
+    const productAttribute = await ctx.model.ProductAttribute.find({ "product_id": productResult._id });
+
+    ctx.helper.success(ctx, {
+      productResult,
+      productImage,
+      productAttribute
+    });
   }
 
   /*

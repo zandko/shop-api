@@ -90,6 +90,7 @@ module.exports = app => {
 
   // 产品管理
   router.get('/api/v1/admin/product', controller.admin.product.index);
+  router.get('/api/v1/admin/product/:_id', controller.admin.product.find);
   router.post('/api/v1/admin/product', controller.admin.product.store);
   router.del('/api/v1/admin/product/:_id', controller.admin.product.destroy);
   router.put('/api/v1/admin/product/:_id', controller.admin.product.update);
