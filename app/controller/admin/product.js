@@ -55,9 +55,9 @@ class ProductController extends Controller {
     const { ctx } = this;
 
     const _id = ctx.params._id;
-    ctx.model.Product.deleteOne({ "_id": _id });
-    ctx.model.ProductImage.deleteMany({ "product_id": _id });
-    ctx.model.ProductAttribute.deleteMany({ "product_id": _id });
+    await ctx.model.Product.deleteOne({ "_id": _id });
+    await ctx.model.ProductImage.deleteMany({ "product_id": _id });
+    await ctx.model.ProductAttribute.deleteMany({ "product_id": _id });
 
     ctx.helper.noContent(ctx);
   }
@@ -67,14 +67,14 @@ class ProductController extends Controller {
 
     const _id = ctx.params._id;
     const productResult = await ctx.model.Product.update({ "_id": _id }, ctx.request.body);
-    ctx.model.ProductImage.deleteMany({ "product_id": _id });
-    ctx.model.ProductAttribute.deleteMany({ "product_id": _id });
+    await ctx.model.ProductImage.deleteMany({ "product_id": _id });
+    await ctx.model.ProductAttribute.deleteMany({ "product_id": _id });
     const productImageResult = ctx.request.body.image_url;
     const productAttributeResult = ctx.request.body.attr_value;
 
     if (productImageResult.length > 0) {
       for (let index = 0; index < productImageResult.length; index++) {
-        await ctx.model.ProductImage.create({ "product_id": productResult._id, "url": productImageResult[index] });
+        await ctx.model.ProductImage.create({ "product_id": _id, "url": productImageResult[index] });
       }
     }
     if (productAttributeResult.length > 0) {
@@ -83,7 +83,7 @@ class ProductController extends Controller {
           "_id": productAttributeResult[index]._id,
         });
         await ctx.model.ProductAttribute.create({
-          "product_id": productResult._id,
+          "product_id": _id,
           "product_type_id": ctx.request.body.product_type_id,
           "product_category_id": ctx.request.body.product_category_id,
           "title": productAttribute[0].title,
