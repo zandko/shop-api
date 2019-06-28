@@ -9,7 +9,7 @@ class ProductController extends Controller {
     const page = Number(ctx.request.query.page) || 1;
     const pageSize = Number(ctx.request.query.pageSize) || 3;
     const total = await ctx.model.Product.find({}).count();
-    const data = await ctx.model.Product.find({}).skip((page - 1) * pageSize).limit(pageSize);
+    const data = await ctx.model.Product.find({}).sort({ "_id": -1 }).skip((page - 1) * pageSize).limit(pageSize)
 
     ctx.helper.success(ctx, {
       data,
@@ -21,7 +21,7 @@ class ProductController extends Controller {
   async store () {
     const { ctx } = this;
 
-    const productResult = ctx.model.Product(ctx.request.body)
+    const productResult = ctx.model.Product(ctx.request.body);
     await productResult.save();
     const productImageResult = ctx.request.body.image_url;
     const productAttributeResult = ctx.request.body.attr_value;
@@ -52,11 +52,48 @@ class ProductController extends Controller {
   }
 
   async destroy () {
+    const { ctx } = this;
 
+    const _id = ctx.params._id;
+    ctx.model.Product.deleteOne({ "_id": _id });
+    ctx.model.ProductImage.deleteMany({ "product_id": _id });
+    ctx.model.ProductAttribute.deleteMany({ "product_id": _id });
+
+    ctx.helper.noContent(ctx);
   }
 
   async update () {
+    const { ctx } = this;
 
+    const _id = ctx.params._id;
+    const productResult = await ctx.model.Product.update({ "_id": _id }, ctx.request.body);
+    ctx.model.ProductImage.deleteMany({ "product_id": _id });
+    ctx.model.ProductAttribute.deleteMany({ "product_id": _id });
+    const productImageResult = ctx.request.body.image_url;
+    const productAttributeResult = ctx.request.body.attr_value;
+
+    if (productImageResult.length > 0) {
+      for (let index = 0; index < productImageResult.length; index++) {
+        await ctx.model.ProductImage.create({ "product_id": productResult._id, "url": productImageResult[index] });
+      }
+    }
+    if (productAttributeResult.length > 0) {
+      for (let index = 0; index < productAttributeResult.length; index++) {
+        const productAttribute = await ctx.model.ProductTypeAttribute.find({
+          "_id": productAttributeResult[index]._id,
+        });
+        await ctx.model.ProductAttribute.create({
+          "product_id": productResult._id,
+          "product_type_id": ctx.request.body.product_type_id,
+          "product_category_id": ctx.request.body.product_category_id,
+          "title": productAttribute[0].title,
+          "type": productAttribute[0].attr_type,
+          "value": productAttributeResult[index].attr_value
+        });
+      }
+    }
+
+    ctx.helper.noContent(ctx);
   }
 
   async find () {
@@ -73,29 +110,6 @@ class ProductController extends Controller {
       productAttribute
     });
   }
-
-  /*
-  async productColorAndType () {
-    const { ctx } = this;
-
-    const productColor = await ctx.model.productColor.find();
-    const productType = await ctx.model.productType.find();
-
-    ctx.helper.created(ctx, {
-      productColor,
-      productType
-    });
-  }
-
-  async productTypeAttribute () {
-    const { ctx } = this;
-
-    const _id = ctx.params._id;
-    const result = await ctx.model.productTypeAttribute.find({ "product_type_id": _id });
-
-    ctx.helper.success(ctx, result);
-  }
-  */
 }
 
 module.exports = ProductController;
