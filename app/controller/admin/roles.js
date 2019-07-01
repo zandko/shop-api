@@ -7,27 +7,8 @@ class RolesController extends Controller {
   async index () {
     const { ctx } = this;
     // 执行查询
-    let order = ctx.query.order;
-    let page = ctx.query.page ? Number(ctx.query.page) : 1;
-    let per_page = ctx.query.per_page ? Number(ctx.query.per_page) : 10;
 
-    if (order === 'desc') {
-      order = -1;
-    } else {
-      order = 1;
-    }
-
-    const result = await ctx.model.Role.aggregate([
-      {
-        $sort: { "_id": order } // 排序
-      },
-      {
-        $skip: page   // 第几页开始
-      },
-      {
-        $limit: per_page // 一页几条
-      }
-    ]);
+    const result = await ctx.model.Role.find({}).sort({ "_id": -1 });
 
     // 返回状态
     ctx.helper.success(ctx, result);
@@ -67,7 +48,7 @@ class RolesController extends Controller {
       role_name: role_name
     });
     // 如果有权限ID 则循序添加到中间表
-    if (privilege_id.length > 0) {
+    if (privilege_id && privilege_id.length > 0) {
       // 每次修改先删除一遍不然会造成数据重复
       await ctx.model.PrivilegeRole.deleteMany({ "role_id": _id });
       for (let i = 0; i < privilege_id.length; i++) {

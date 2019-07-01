@@ -2,7 +2,7 @@
 
 const Controller = require('egg').Controller;
 
-class AdsCatController extends Controller {
+class ArticleCategoryController extends Controller {
   // 文章分类列表
   async index () {
     const { ctx } = this;
@@ -16,7 +16,7 @@ class AdsCatController extends Controller {
       order = 1;
     }
 
-    const result = await ctx.model.ArticleCat.find({}).sort({ "_id": order }).skip(page).limit(per_page);
+    const result = await ctx.model.ArticleCategory.find({}).sort({ "_id": order }).skip(page).limit(per_page);
     ctx.helper.success(ctx, result);
   }
 
@@ -24,7 +24,7 @@ class AdsCatController extends Controller {
   async store () {
     const { ctx } = this;
     const cat_name = ctx.request.body.cat_name;
-    const result = await ctx.model.ArticleCat.create({ cat_name });
+    const result = await ctx.model.ArticleCategory.create({ cat_name });
     ctx.helper.created(ctx, result);
   }
 
@@ -32,7 +32,7 @@ class AdsCatController extends Controller {
   async destroy () {
     const { ctx } = this;
     const _id = ctx.params._id;
-    await ctx.model.ArticleCat.deleteOne({ "_id": _id });
+    await ctx.model.ArticleCategory.deleteOne({ "_id": _id });
     await ctx.model.Article.deleteMany({ "cat_id": _id });  // 文章分类没了 他下面的文章也会被删除
     ctx.helper.noContent(ctx);
   }
@@ -42,9 +42,9 @@ class AdsCatController extends Controller {
     const { ctx } = this;
     const _id = ctx.params._id;
     const cat_name = ctx.request.body.cat_name;
-    const result = await ctx.model.ArticleCat.updateOne({ "_id": _id }, { cat_name });
+    const result = await ctx.model.ArticleCategory.updateOne({ "_id": _id }, { cat_name });
     ctx.helper.noContent(ctx, result);
   }
 }
 
-module.exports = AdsCatController;
+module.exports = ArticleCategoryController;

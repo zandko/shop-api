@@ -42,10 +42,10 @@ module.exports = app => {
 
   // 文章管理
   // 文章分类
-  router.get('/api/v1/admin/article_categories', controller.admin.articleCat.index);
-  router.post('/api/v1/admin/article_categories', controller.admin.articleCat.store);
-  router.del('/api/v1/admin/article_categories/:_id', controller.admin.articleCat.destroy);
-  router.put('/api/v1/admin/article_categories/:_id', controller.admin.articleCat.update);
+  router.get('/api/v1/admin/article_categories', controller.admin.articleCategory.index);
+  router.post('/api/v1/admin/article_categories', controller.admin.articleCategory.store);
+  router.del('/api/v1/admin/article_categories/:_id', controller.admin.articleCategory.destroy);
+  router.put('/api/v1/admin/article_categories/:_id', controller.admin.articleCategory.update);
   // 文章
   router.get('/api/v1/admin/articles', controller.admin.articles.index);
   router.post('/api/v1/admin/articles', controller.admin.articles.store);

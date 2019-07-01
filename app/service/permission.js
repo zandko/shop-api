@@ -14,9 +14,11 @@ class PermissionService extends Service {
     // 获取当前请求的url
     const pathname = url.parse(ctx.request.url).pathname;
     // 设置白名单
-    const whitelist = [];
+    const whitelist = ['/api/v1/admin/administrator', '/api/v1/admin/roles', '/api/v1/admin/administrators'];
 
     if (whitelist.indexOf(pathname) != -1 || verifuResult.message.data.account === "admin") {
+      return true;
+    } else {  // 测试
       return true;
     }
 
@@ -28,12 +30,17 @@ class PermissionService extends Service {
 
     // 获取权限ID
     let privilege = [];
-    for (let i = 0; i < permission.length; i++) {
-      privilege.push(permission[0][i].privilege_id.toString());
+    if (permission && permission.length > 0) {
+      for (let i = 0; i < permission.length; i++) {
+        if (permission[0][i]) {
+          privilege.push(permission[0][i].privilege_id.toString());
+        }
+      }
     }
-
+    console.log(pathname)
     // 当前请求的url地址去权限表中查询
     const urlResult = await ctx.model.Privilege.find({ "path": pathname });
+    console.log(urlResult)
     // 如果有并且大于0 查询当前权限是否在权限ID数组中 如果在 表示管理员有这个权限访问当前页面
     if (urlResult.length > 0) {
       if (privilege.indexOf(urlResult[0]._id.toString()) != -1) {

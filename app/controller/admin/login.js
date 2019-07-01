@@ -19,7 +19,8 @@ class LoginController extends Controller {
       var token = await service.tools.createToken({
         "_id": result[0]._id,
         "account": result[0].account,
-        "password": result[0].password
+        "password": result[0].password,
+        "avatar": result[0].avatar
       });
       // 返回token与状态码
       ctx.helper.created(ctx, {
