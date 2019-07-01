@@ -7,7 +7,7 @@ class ProductController extends Controller {
     const { ctx } = this;
 
     const page = Number(ctx.request.query.page) || 1;
-    const pageSize = Number(ctx.request.query.pageSize) || 3;
+    const pageSize = Number(ctx.request.query.pageSize) || 20;
     const total = await ctx.model.Product.find({}).count();
     const data = await ctx.model.Product.find({}).sort({ "_id": -1 }).skip((page - 1) * pageSize).limit(pageSize)
 

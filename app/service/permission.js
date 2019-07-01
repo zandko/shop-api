@@ -37,10 +37,8 @@ class PermissionService extends Service {
         }
       }
     }
-    console.log(pathname)
     // 当前请求的url地址去权限表中查询
     const urlResult = await ctx.model.Privilege.find({ "path": pathname });
-    console.log(urlResult)
     // 如果有并且大于0 查询当前权限是否在权限ID数组中 如果在 表示管理员有这个权限访问当前页面
     if (urlResult.length > 0) {
       if (privilege.indexOf(urlResult[0]._id.toString()) != -1) {

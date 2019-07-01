@@ -8,19 +8,60 @@ class RolesController extends Controller {
     const { ctx } = this;
     // 执行查询
 
-    const result = await ctx.model.Role.find({}).sort({ "_id": -1 });
+    const result = await ctx.model.Role.aggregate([
+      {
+        $lookup: {
+          from: "privilegeroles",
+          localField: "_id",
+          foreignField: "role_id",
+          as: "roles",
+        }
+      },
+      {
+        $sort: { "_id": -1 }
+      },
+    ]);
+    const rolesList = []
+    if (result.length > 0) {
+      for (let i = 0; i < result.length; i++) {
+        if (result[i].roles.length > 0) {
+          const privileges = []
+          for (let j = 0; j < result[i].roles.length; j++) {
+            const privilege = await ctx.model.Privilege.findById(result[i].roles[j].privilege_id);
+            privileges.push(privilege._id)
+          }
+          rolesList.push({
+            _id: result[i]._id,
+            role_name: result[i].role_name,
+            privilege_id: privileges
+          })
+        }
+      }
+    }
 
     // 返回状态
-    ctx.helper.success(ctx, result);
+    ctx.helper.success(ctx, rolesList);
   }
 
   // 添加角色
   async store () {
     const { ctx } = this;
     const role_name = ctx.request.body.role_name;
+    const privilege_id = ctx.request.body.privilege_id;
+
     // 执行添加
     const role = new ctx.model.Role({ role_name });
     role.save();
+    if (role._id) {
+      if (privilege_id && privilege_id.length > 0) {
+        for (let i = 0; i < privilege_id.length; i++) {
+          await ctx.model.PrivilegeRole.create({
+            "role_id": role._id,
+            "privilege_id": privilege_id[i]
+          });
+        }
+      }
+    }
     ctx.helper.created(ctx, role);
   }
 

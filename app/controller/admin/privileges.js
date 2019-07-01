@@ -6,49 +6,30 @@ class PrivilegesController extends Controller {
   // 权限列表
   async index () {
     const { ctx } = this;
-    let order = ctx.query.order;
-    let page = ctx.query.page ? Number(ctx.query.page) : 1;
-    let per_page = ctx.query.per_page ? Number(ctx.query.per_page) : 10;
 
-    order = order === 'desc' ? -1 : 1;
+    const page = Number(ctx.request.query.page) || 1;
+    const pageSize = Number(ctx.request.query.pageSize) || 20;
+    const total = await ctx.model.Privilege.find({}).count();
+
     // 自查询
-    const result = await ctx.model.Privilege.aggregate([
-      {
-        $lookup: {
-          from: 'privileges',
-          localField: "_id",
-          foreignField: "parent_id",
-          as: "items"
-        }
-      },
-      {
-        $match: {
-          "parent_id": "0"
-        }
-      },
-      {
-        $sort: { "_id": order } // 排序
-      },
-      {
-        $skip: page   // 第几页开始
-      },
-      {
-        $limit: per_page // 一页几条
-      },
-    ]);
+    const data = await ctx.model.Privilege.find({}).sort({ "_id": -1 }).skip((page - 1) * pageSize).limit(pageSize)
     // 返回响应信息
-    ctx.helper.success(ctx, result);
+    ctx.helper.success(ctx, {
+      data,
+      page,
+      total
+    })
   }
 
   async store () {
     const { ctx, app } = this;
     // 获取参数
-    const name = ctx.request.body.pri_name;
+    const name = ctx.request.body.name;
     const pid = ctx.request.body.parent_id;
     // 为了自查寻这里添加parent_id的时候必须要转为ObjectId
     const parent_id = pid ? app.mongoose.Types.ObjectId(pid) : pid;
     const method = ctx.request.body.method;
-    const path = ctx.request.body.resource;
+    const path = ctx.request.body.path;
     // 查询当前名称存不存在
     const oneResult = await ctx.model.Privilege.find({ "name": name });
     // 如果不存在则添加权限
@@ -82,10 +63,10 @@ class PrivilegesController extends Controller {
   async update () {
     const { ctx } = this;
     // 这里跟添加的时候基本一样  只是添加了一个_id的条件
-    const name = ctx.request.body.pri_name;
+    const name = ctx.request.body.name;
     const parent_id = ctx.request.body.parent_id;
     const method = ctx.request.body.method;
-    const path = ctx.request.body.resource;
+    const path = ctx.request.body.path;
     const _id = ctx.params._id;
     const oneResult = await ctx.model.Privilege.find({ "name": name });
     if (!oneResult[0]) {
