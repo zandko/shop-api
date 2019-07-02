@@ -6,86 +6,46 @@ class AdsController extends Controller {
   // 文章列表
   async index () {
     const { ctx, app } = this;
-    let order = ctx.query.order;
-    let cat_id = ctx.query.cat_id ? app.mongoose.Types.ObjectId(ctx.query.cat_id) : null;
-    let page = ctx.query.page ? Number(ctx.query.page) : 1;
-    let per_page = ctx.query.per_page ? Number(ctx.query.per_page) : 10;
 
-    if (order === 'desc') {
-      order = -1;
-    } else {
-      order = 1;
-    }
-    if (cat_id) {
-      var result = await ctx.model.Article.aggregate([
-        {
-          $lookup: {
-            from: 'articlecats',
-            localField: "cat_id",
-            foreignField: "_id",
-            as: "items"
-          }
-        },
-        {
-          $match: { "cat_id": cat_id }  // 条件
-        },
-        {
-          $sort: { "sort_num": order } // 排序
-        },
-        {
-          $skip: page   // 第几页开始
-        },
-        {
-          $limit: per_page // 一页几条
-        },
-      ]);
-    } else {
-      var result = await ctx.model.Article.aggregate([
-        {
-          $lookup: {
-            from: 'articlecats',
-            localField: "cat_id",
-            foreignField: "_id",
-            as: "items"
-          }
-        },
-        {
-          $sort: { "sort_num": order } // 排序
-        },
-        {
-          $skip: page   // 第几页开始
-        },
-        {
-          $limit: per_page // 一页几条
-        },
-      ]);
-    }
+    const page = Number(ctx.request.query.page) || 1;
+    const pageSize = Number(ctx.request.query.pageSize) || 20;
+    const total = await ctx.model.Article.find({}).count();
+    const data = await ctx.model.Article.find({}).sort({ "_id": -1 }).skip((page - 1) * pageSize).limit(pageSize)
 
-    ctx.helper.success(ctx, result);
+    ctx.helper.success(ctx, {
+      data,
+      page,
+      total
+    })
   }
 
   // 添加文章
   async store () {
     const { ctx } = this;
+
     const title = ctx.request.body.title;
     const content = ctx.request.body.content;
     const cat_id = ctx.request.body.cat_id;
     const link = ctx.request.body.link ? ctx.request.body.link : null;
     const result = await ctx.model.Article.create({ title, content, cat_id, link });
+
     ctx.helper.created(ctx, result);
   }
 
   // 删除文章
   async destroy () {
     const { ctx } = this;
+
     const _id = ctx.params._id;
     await ctx.model.Article.deleteOne({ "_id": _id });
+
     ctx.helper.noContent(ctx);
   }
 
   // 修改文章
   async update () {
     const { ctx } = this;
+   
     const _id = ctx.params._id;
     const title = ctx.request.body.title;
     const content = ctx.request.body.content;
@@ -97,7 +57,18 @@ class AdsController extends Controller {
     } else {
       var result = await ctx.model.Article.updateOne({ "_id": _id }, { title, content, cat_id, link });
     }
+
     ctx.helper.noContent(ctx, result);
+  }
+
+  async find () {
+    const { ctx } = this;
+   
+    const _id = ctx.params._id;
+   
+    var result = await ctx.model.Article.findById(_id);
+
+    ctx.helper.success(ctx, result);
   }
 }
 
