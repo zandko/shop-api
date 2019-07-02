@@ -6,10 +6,15 @@ class ProductController extends Controller {
   async index () {
     const { ctx } = this;
 
+    const json = {};
+    const keyword = this.ctx.request.query.keyword;
+    if (keyword) {
+      Object.assign(json, { "title": { $regex: new RegExp(keyword) } })
+    }
     const page = Number(ctx.request.query.page) || 1;
     const pageSize = Number(ctx.request.query.pageSize) || 20;
     const total = await ctx.model.Product.find({}).count();
-    const data = await ctx.model.Product.find({}).sort({ "_id": -1 }).skip((page - 1) * pageSize).limit(pageSize)
+    const data = await ctx.model.Product.find(json).sort({ "_id": -1 }).skip((page - 1) * pageSize).limit(pageSize)
 
     ctx.helper.success(ctx, {
       data,

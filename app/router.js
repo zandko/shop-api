@@ -96,6 +96,11 @@ module.exports = app => {
   router.del('/api/v1/admin/product/:_id', controller.admin.product.destroy);
   router.put('/api/v1/admin/product/:_id', controller.admin.product.update);
 
+  // 产品图片
+  router.post('/api/v1/admin/product_picture', controller.admin.productImage.store);
+  router.del('/api/v1/admin/product_picture/:_id', controller.admin.productImage.destroy);
+  router.put('/api/v1/admin/product_picture/:_id', controller.admin.productImage.update);
+
   // Index  前台管理
   // 注册、登录
   router.post('/api/v1/home/members', controller.home.member.store);
