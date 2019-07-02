@@ -138,7 +138,6 @@ class AdministratorsController extends Controller {
   async find () {
     const { ctx } = this;
     const verifuResult = await ctx.service.tools.verifyToken(ctx.query.token);
-    console.log(verifuResult.verify)
     if(verifuResult.verify) {
       if (verifuResult.message.data.account === 'admin') {
         verifuResult.message.data.roles = ['admin']
