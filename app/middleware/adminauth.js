@@ -4,9 +4,10 @@ module.exports = (options, app) => {
   return async function adminauth (ctx, next) {
     // 获取当前请求的url地址
     var pathname = url.parse(ctx.request.url).pathname;
+    console.log(pathname)
     const whitelist = [
       '/api/v1/admin/authentications',
-      '/api/v1/home/authentications',
+      '/api/v1/home/authorizations',
       '/api/v1/home/members',
       '/api/v1/admin/administrator'
     ];

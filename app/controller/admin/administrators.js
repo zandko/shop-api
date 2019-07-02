@@ -121,7 +121,7 @@ class AdministratorsController extends Controller {
       await ctx.model.Admin.updateOne({ "_id": admin_id }, { "password": password });
       if (role_id && role_id.length > 0) {
         for (let i = 0; i < role_id.length; i++) {
-          await ctx.model.AdminROle.create({ "admin_id": admin_id, "role_id": role_id[i] });
+          await ctx.model.AdminRole.create({ "admin_id": admin_id, "role_id": role_id[i] });
         }
       }
       ctx.helper.noContent(ctx);
@@ -138,18 +138,23 @@ class AdministratorsController extends Controller {
   async find () {
     const { ctx } = this;
     const verifuResult = await ctx.service.tools.verifyToken(ctx.query.token);
-    if (verifuResult.message.data.account === 'admin') {
-      verifuResult.message.data.roles = ['admin']
-    } else {
-      const result = await ctx.model.AdminRole.find({ "admin_id": verifuResult.message.data._id });
-      const roles = []
-      for (let i = 0; i < result.length; i++) {
-        const role = await ctx.model.Role.findById(result[i].role_id);
-        roles.push(role.role_name)
+    console.log(verifuResult.verify)
+    if(verifuResult.verify) {
+      if (verifuResult.message.data.account === 'admin') {
+        verifuResult.message.data.roles = ['admin']
+      } else {
+        const result = await ctx.model.AdminRole.find({ "admin_id": verifuResult.message.data._id });
+        const roles = []
+        for (let i = 0; i < result.length; i++) {
+          const role = await ctx.model.Role.findById(result[i].role_id);
+          roles.push(role.role_name)
+        }
+        verifuResult.message.data.roles = roles
       }
-      verifuResult.message.data.roles = roles
+      ctx.helper.success(ctx, verifuResult.message.data);
+    } else {
+      ctx.helper.error(ctx, 401, "token已过期");
     }
-    ctx.helper.success(ctx, verifuResult.message.data);
   }
 }
 
