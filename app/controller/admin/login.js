@@ -32,12 +32,6 @@ class LoginController extends Controller {
       ctx.helper.error(ctx, 422, "用户名或密码错误");
     }
   }
-
-  async logout () {
-    const { ctx } = this;
-    const verifuResult = await ctx.service.tools.verifyToken(ctx.query.token);
-    console.log(verifuResult.message);
-  }
 }
 
 module.exports = LoginController;

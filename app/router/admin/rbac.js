@@ -5,7 +5,6 @@ module.exports = app => {
 
   // 登录
   router.post('/api/v1/admin/authentications', controller.admin.login.authentication);
-  router.post('/api/v1/admin/logout', controller.admin.login.logout);
 
   // 角色管理
   router.get('/api/v1/admin/roles', controller.admin.roles.index);
