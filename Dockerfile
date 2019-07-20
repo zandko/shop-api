@@ -20,7 +20,7 @@ WORKDIR /shop_interface
 # 如果使用的境外服务器，无需使用淘宝的镜像源，即改为`RUN npm i`。
 RUN npm i --registry=https://registry.npm.taobao.org
 
-RUN npm install pm2 -g
+RUN npm install && npm install pm2 -g
 
 #指定时区
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
