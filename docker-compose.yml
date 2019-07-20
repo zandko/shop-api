@@ -1,0 +1,20 @@
+version: '2'
+
+services:
+  shop_interface:
+    image: image: ${push_over@163.com}/${shop_interface}
+    build: .
+    environment:
+      NODE_ENV: production
+    ports:
+      - 7001:7001
+    depends_on:
+      - "mongo"
+    restart: always
+  mongo:
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: mm123
+    image: mongo
+    ports:
+        - "27017:27017"
