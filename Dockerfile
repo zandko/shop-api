@@ -1,4 +1,3 @@
-# 设置基础镜像,如果本地没有该镜像，会从Docker.io服务器pull镜像
 FROM node
 
 LABEL maintainer = "gaozan <push_over@163.com>"
@@ -7,7 +6,7 @@ LABEL maintainer = "gaozan <push_over@163.com>"
 COPY ./ /usr/local/app
 WORKDIR /usr/local/app
 RUN npm set registry https://registry.npm.taobao.org/
-RUN npm install
+RUN npm install --production && npm install egg-scripts --save
 # # 创建app目录
 # RUN mkdir -p /shop_interface
  
@@ -33,7 +32,7 @@ RUN npm install
 # COPY . /shop_interface
 
 # # 暴露容器端口
-EXPOSE 7001
+# EXPOSE 7001
 
 # # 启动node应用
 # CMD npm start
