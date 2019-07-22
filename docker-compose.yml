@@ -28,7 +28,7 @@ services:
     volumes:
       - .:/app
     restart: always
-    working_dir: /usr/local/app
+    working_dir: /app
     command: npm start
     ports:
       - 7001:7001
