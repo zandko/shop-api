@@ -29,4 +29,4 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 COPY . /app
 
 # # 暴露容器端口
-EXPOSE 7001
+EXPOSE 8848
