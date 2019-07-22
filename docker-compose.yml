@@ -27,8 +27,11 @@ services:
     build: .
     # restart: always
     command: npm start
+    # environment:
+    #   - TZ=Asia/Shanghai
     volumes:
       - .:/app
+      - /app/node_modules
     ports:
       - 8803:8803
     depends_on:

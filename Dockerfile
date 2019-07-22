@@ -1,6 +1,7 @@
 FROM node:lts
 
 # LABEL maintainer = "gaozan <push_over@163.com>"
+ENV NODE_ENV production
 
 # 创建app目录
 RUN mkdir /app
@@ -27,6 +28,8 @@ RUN npm install --registry=https://registry.npm.taobao.org && npm install egg-sc
 
 # 拷贝所有源代码到工作目录
 COPY . /app
+
+USER root
 
 # 暴露容器端口
 EXPOSE 8083
