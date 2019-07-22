@@ -24,7 +24,7 @@ services:
       - ./mongo:/data/db
 
   app:
-    build: ./
+    build: .
     volumes:
       - .:/app
     restart: always
