@@ -1,12 +1,13 @@
-# # 设置基础镜像,如果本地没有该镜像，会从Docker.io服务器pull镜像
-FROM node:alpine
-# MAINTAINER gaozan <push_over@163.com>
+# 设置基础镜像,如果本地没有该镜像，会从Docker.io服务器pull镜像
+FROM node
+
+LABEL maintainer = "gaozan <push_over@163.com>"
 # ENV TZ = Asia/Shanghai
 
 COPY ./ /usr/local/app
 WORKDIR /usr/local/app
-RUN npm i --registry=https://registry.npm.taobao.org
-ENV NODE_ENV dev
+RUN npm set registry https://registry.npm.taobao.org/
+RUN npm install
 # # 创建app目录
 # RUN mkdir -p /shop_interface
  
@@ -36,18 +37,3 @@ EXPOSE 7001
 
 # # 启动node应用
 # CMD npm start
-
-
-
-
-# # docker stop shop_interface || true \
-# #  && docker rm shop_interface || true \
-# #  && cd /home/jenkins_home/workspace/shop_interface  \
-# #  && docker build --rm --no-cache=true  -t shop_interface  - < Dockerfile \
-# #  && docker run -d --privileged=true --name shop_interface -p 7001:7001 -v /home/jenkins_home/workspace/shop_interface:/home/shop_interface
-
-# # docker stop shop_interface || true \
-# #  && docker rm shop_interface || true \
-# #  && cd /home/jenkins_home/workspace/shop_interface  \
-# #  && docker build --rm --no-cache=true  -t node:10.16.0-alpine  - < Dockerfile \
-# #  && docker run -d --privileged=true --name shop_interface -p 7001:7001 -v /home/jenkins_home/workspace/shop_interface:/home/shop_interface node:10.16.0-alpine
