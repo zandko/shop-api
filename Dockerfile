@@ -5,7 +5,7 @@ ENV NODE_ENV production
 
 # 创建app目录
 RUN mkdir /app
- 
+
 # 设置工作目录
 WORKDIR /app
 
@@ -30,6 +30,5 @@ RUN npm install --registry=https://registry.npm.taobao.org && npm install egg-sc
 COPY . /app
 
 USER root
-
 # 暴露容器端口
-EXPOSE 8083
+EXPOSE 7001

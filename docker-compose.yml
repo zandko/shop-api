@@ -33,7 +33,7 @@ services:
       - .:/app
       - /app/node_modules
     ports:
-      - 8803:8803
+      - 7001:7001
     depends_on:
       - redis
       - mongo
