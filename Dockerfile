@@ -1,9 +1,9 @@
 FROM node:lts
 
-LABEL maintainer = "gaozan <push_over@163.com>"
+# LABEL maintainer = "gaozan <push_over@163.com>"
 
 # 创建app目录
-RUN mkdir -p /app
+RUN mkdir /app
  
 # 设置工作目录
 WORKDIR /app
@@ -22,11 +22,11 @@ COPY package.json /app/package.json
 RUN npm install --registry=https://registry.npm.taobao.org && npm install egg-scripts --save
 
 
-#指定时区
-RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+# 指定时区
+# RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-# # 拷贝所有源代码到工作目录
+# 拷贝所有源代码到工作目录
 COPY . /app
 
-# # 暴露容器端口
-EXPOSE 8848
+# 暴露容器端口
+EXPOSE 8083

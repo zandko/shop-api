@@ -25,12 +25,12 @@ services:
 
   app:
     build: .
+    # restart: always
+    command: npm start
     volumes:
       - .:/app
-    restart: always
-    command: npm start
     ports:
-      - 8848:4888
+      - 8803:8803
     depends_on:
       - redis
       - mongo
