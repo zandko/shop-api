@@ -28,12 +28,12 @@ module.exports = appInfo => {
   };
 
   // 配置mongodb
-  config.mongoose = {
-    client: {
-      url: mg,
-      options: {}
-    }
-  }
+  // config.mongoose = {
+  //   client: {
+  //     url: mg,
+  //     options: {}
+  //   }
+  // }
 
   // 让csrf失效
   config.security = {
