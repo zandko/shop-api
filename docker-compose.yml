@@ -20,8 +20,8 @@ services:
     command: npm start
     # environment:
     #   - TZ=Asia/Shanghai
-    volumes:
-      - .:/app
+    # volumes:
+    #   - .:/app
       # - /app/node_modules
     ports:
       - 7001:7001

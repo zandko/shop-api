@@ -4,7 +4,7 @@ FROM node:lts
 ENV NODE_ENV production
 
 # 创建app目录
-RUN mkdir /app
+# RUN mkdir /app
 
 # 设置工作目录
 WORKDIR /app
