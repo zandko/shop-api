@@ -18,7 +18,6 @@ docker images;
 docker-compose up -d;
 # 查看日志
 #docker logs shop_admin;
-docker logs shop_interface_app_1;
 #删除build过程中产生的镜像    #docker image prune -a -f
 # docker rmi $(docker images -f "dangling=true" -q)
 # 对空间进行自动清理
