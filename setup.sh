@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 #image_version=`date +%Y%m%d%H%M`;
 # 关闭shop_admin容器
+cd /app
+
 docker-compose stop || true;
 # 删除shop_admin容器
 docker-compose down || true;
@@ -16,7 +18,8 @@ docker images;
 docker-compose up -d;
 # 查看日志
 #docker logs shop_admin;
+docker logs shop_interface_app_1;
 #删除build过程中产生的镜像    #docker image prune -a -f
-docker rmi $(docker images -f "dangling=true" -q)
+# docker rmi $(docker images -f "dangling=true" -q)
 # 对空间进行自动清理
 #docker system prune -a -f
