@@ -6,8 +6,9 @@ cd /app
 docker-compose stop || true;
 # 删除shop_admin容器
 docker-compose down || true;
+
 # 删除shop/admin镜像
-#docker rmi --force $(docker images | grep shop/admin | awk '{print $3}')
+docker rmi --force $(docker images | grep shop_interface_app | awk '{print $3}')
 # 构建shop/admin:$image_version镜像
 #docker-compose build . -t shop/admin:$image_version;
 docker-compose build .;
