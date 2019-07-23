@@ -8,7 +8,8 @@ module.exports = (options, app) => {
       '/api/v1/admin/authentications',
       '/api/v1/home/authorizations',
       '/api/v1/home/members',
-      '/api/v1/admin/administrator'
+      '/api/v1/admin/administrators',
+      '/api/v1/admin/first_user'
     ];
     // 验证token
     var verify = await ctx.helper.verifyToken(ctx);

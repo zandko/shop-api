@@ -19,6 +19,8 @@ module.exports = app => {
   router.del('/api/v1/admin/administrators/:_id', controller.admin.administrators.destroy);
   router.put('/api/v1/admin/administrators/:_id', controller.admin.administrators.update);
 
+  router.post('/api/v1/admin/first_user', controller.admin.administrators.store);
+
   // 权限管理
   router.get('/api/v1/admin/privileges', controller.admin.privileges.index);
   router.post('/api/v1/admin/privileges', controller.admin.privileges.store);
